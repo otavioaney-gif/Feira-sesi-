@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Essência</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- SDK DO EMAILJS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+    --primary:#087f5b;
+    --primary-dark:#056044;
+    --secondary:#12b886;
+    --ink:#183b32;
+    --muted:#667a73;
+    --soft:#e8f8f1;
+    --line:#d9eee5;
+    --white:#fff;
+    --shadow:0 18px 50px rgba(8,127,91,.13);
+    
+    --font-brand: 'Playfair Display', Georgia, serif;
+    --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+    font-family: var(--font-main) !important;
+    background: 
+      linear-gradient(rgba(249, 255, 252, 0.85), rgba(231, 247, 240, 0.85)),
+      url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=1920&q=80') center/cover fixed no-repeat;
+    color:var(--ink);
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+.app{
+    width:100%;
+    max-width:none;
+    min-height:100vh;
+    margin:0;
+    background:rgba(255,255,255,.35);
+    backdrop-filter:blur(8px);
+    position:relative;
+}
+
+header {
+    display: block !important;
+    position:relative;
+    overflow:hidden;
+    background: linear-gradient(135deg, rgba(5,96,68,0.95) 0%, rgba(8,127,91,0.95) 55%, rgba(18,184,134,0.95) 100%) !important;
+    color: #fff !important;
+    text-align: center;
+    padding: 42px 22px 48px;
+    border-radius: 0 0 38px 38px !important;
+    box-shadow: 0 15px 40px rgba(5,96,68,.22) !important;
+    margin-bottom: 20px;
+}
+
+header:before, header:after {
+    content:""; position:absolute; border-radius:50%; background:rgba(255,255,255,.10);
+}
+header:before { width:170px; height:170px; left:-70px; top:-70px; }
+header:after { width:130px; height:130px; right:-45px; bottom:-55px; }
+
+.logo { font-size:48px; filter:drop-shadow(0 8px 12px rgba(0,0,0,.12)); }
+
+.palavra-essencia {
+    font-family: var(--font-brand) !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.5px;
+    font-style: italic;
+}
+
+header h1 {
+    font-size:38px !important;
+    margin-top:4px;
+    color: #fff !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+header p {
+    font-family: var(--font-main) !important;
+    margin-top:8px;
+    opacity:.95;
+    font-size:15px !important;
+    color: #fff !important;
+    font-weight: 500;
+}
+
+.tela{display:none;padding:10px 18px 115px;animation:aparecer .35s ease}
+.tela.ativa{display:block !important}
+@keyframes aparecer{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.card{
+    background:rgba(255,255,255,.94);
+    padding:26px;border-radius:26px;margin-bottom:18px;
+    border:1px solid rgba(255,255,255,.9);
+    box-shadow:var(--shadow);
+    position:relative;
+    overflow:hidden;
+    transition:transform .22s ease, box-shadow .22s ease;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 22px 55px rgba(8,127,91,.16);
+}
+
+.card h2{
+    color:var(--primary-dark);
+    margin-bottom:10px;
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:-.3px;
+}
+
+.card p{line-height:1.65;color:#4f5e58; font-size:15px; font-weight: 500;}
+
+.bem-vindo{text-align:center;padding:30px 23px}
+.bem-vindo h2{font-size:28px;color:#056044;margin:10px 0 14px; font-weight:800;}
+.pergunta{font-size:18px;font-weight:800;color:#087f5b;margin:18px 0}
+
+.frase{
+    background:linear-gradient(135deg,#e7f8f0,#f7fcfa);
+    border:1px solid #d6eee4;padding:18px;border-radius:19px;
+    text-align:center;margin-top:18px;line-height:1.55;font-weight:700;color:#17634e;
+}
+
+.btn{
+    width:100%;
+    background:linear-gradient(135deg, var(--primary) 0%, #0fa676 100%);
+    color:#fff;
+    border:none;
+    padding:16px 20px;
+    border-radius:16px;
+    cursor:pointer;
+    font-family: var(--font-main) !important;
+    font-size:15px;
+    font-weight:800;
+    margin-top:14px;
+    box-shadow:0 10px 22px rgba(8,127,91,.22);
+    transition:all .25s cubic-bezier(0.4, 0, 0.2, 1);
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    letter-spacing:.3px;
+}
+
+.btn:hover{
+    transform:translateY(-3px) scale(1.01);
+    box-shadow:0 14px 28px rgba(8,127,91,.35);
+    background:linear-gradient(135deg, #098e66 0%, #12b886 100%);
+}
+
+.btn-secundario{
+    background:#e5f6ef;
+    color:#087f5b;
+    box-shadow:none;
+    border:2px solid #cfeade;
+}
+
+.btn-secundario:hover{
+    background:#d5f0e4;
+    color:#056044;
+    border-color: #b2e2cd;
+    box-shadow:0 6px 18px rgba(8,127,91,.10);
+}
+
+label{
+    display:block;
+    font-weight:700;
+    margin-top:16px;
+    margin-bottom:8px;
+    color:#245b4c;
+    font-size:14px;
+}
+
+input,textarea{
+    width:100%;
+    border:2px solid var(--line);
+    background:#fcfbff;
+    border-radius:14px;
+    padding:14px 16px;
+    font-family: var(--font-main) !important;
+    font-size:15px;
+    font-weight: 500;
+    color: var(--ink);
+    outline:none;
+    transition:.2s ease;
+}
+
+input:focus,textarea:focus{
+    border-color:#18a77b;
+    box-shadow:0 0 0 4px rgba(18,184,134,.15);
+    background:#fff;
+}
+
+textarea{height:120px;resize:vertical}
+
+.avatar{
+    width:92px;height:92px;border-radius:28px;
+    background:linear-gradient(135deg,#087f5b,#12b886);color:white;
+    display:flex;align-items:center;justify-content:center;font-size:40px;
+    margin:0 auto 15px;box-shadow:0 14px 28px rgba(8,127,91,.22)
+}
+
+.perfil-nome{text-align:center;font-size:24px;font-weight:800;color:#056044;margin-bottom:20px}
+
+.item-perfil{
+    background:linear-gradient(135deg,#eefaf5,#fff);
+    border:1px solid #dcefe7;padding:16px;border-radius:16px;margin-top:10px;
+}
+.item-perfil strong{color:#087f5b}
+
+.desafio-box{text-align:center;overflow:hidden}
+.numero{font-size:13px;color:#8a839b;margin-bottom:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.desafio-texto{font-size:22px;line-height:1.45;font-weight:800;color:#174f40;margin:22px 0}
+
+.contador{
+    margin-top:18px;padding:14px 16px;border-radius:16px;
+    background:#e8f7f0;border:1px solid #d5eee4;color:#087f5b;font-weight:800;
+    text-align:center;
+}
+
+.diario-item{
+    background:linear-gradient(135deg,#eefaf5,#fff);
+    border:1px solid #dcefe7;padding:16px;border-radius:16px;margin-top:12px;line-height:1.55
+}
+.data{font-size:12px;color:#71857e;margin-bottom:7px;font-weight:700}
+
+.estrelas{
+    display:flex;justify-content:center;gap:9px;margin:22px 0;
+    background:linear-gradient(135deg,#f5fffa,#edf8f3);
+    padding:14px;border-radius:22px;border:1px solid #d9eee5;
+}
+
+.estrela{
+    flex:1;max-width:58px;width:49px;height:49px;
+    border:1px solid #d8ece3;background:#fff;color:#9cc9b8;
+    font-size:29px;border-radius:15px;cursor:pointer;transition:.2s ease;
+}
+
+.estrela.selecionada{
+    color:#7457e8;background:linear-gradient(135deg,#eadfff,#dff7ed);
+    box-shadow:0 8px 18px rgba(116,87,232,.18)
+}
+
+.barra-fundo{height:13px;background:#dcece5;border-radius:99px;overflow:hidden;margin-top:15px}
+.barra{height:100%;width:0%;background:linear-gradient(90deg,#7457e8,#12b886);transition:width .5s;border-radius:99px}
+
+.menu{
+    position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
+    width:calc(100% - 24px);max-width:500px;
+    background:rgba(250,255,252,.92);
+    backdrop-filter:blur(18px);display:flex;justify-content:space-around;
+    padding:9px 7px;border:1px solid rgba(217,238,229,.95);
+    border-radius:23px;box-shadow:0 16px 45px rgba(20,76,61,.17);z-index:20
+}
+
+.menu button{
+    border:none;background:transparent;color:#71857e;
+    font-family: var(--font-main) !important;
+    font-size:11px;font-weight:700;cursor:pointer;
+    padding:7px 9px;border-radius:15px;min-width:58px;transition:.2s ease
+}
+
+.menu button span{display:block;font-size:21px;margin-bottom:3px;}
+.menu button.ativo{color:#087f5b;background:#e5f6ef;font-weight:800}
+
+.reflexoes-acesso{
+    margin-top:14px;padding:16px;border-radius:20px;
+    background:linear-gradient(135deg,#f5fffb,#f2edff);
+    border:1px solid #dce9e4;text-align:center;
+}
+
+.btn-reflexoes{
+    background:linear-gradient(135deg,#7457e8,#5c49c8);
+    box-shadow:0 10px 24px rgba(116,87,232,.20);
+}
+
+.pergunta-item{
+    margin-top:15px;padding:16px;border-radius:17px;
+    background:linear-gradient(135deg,#eefaf5,#fbfefc);
+    border:1px solid #dcefe7;
+}
+
+@media(max-width:599px){
+    .tela{padding:10px 14px 112px}
+    .card{padding:20px;border-radius:22px}
+    .menu{width:calc(100% - 18px);bottom:9px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header id="cabecalho">
+    <div class="logo">🌱</div>
+    <h1 class="palavra-essencia">Essência</h1>
+    <p>Um espaço para descobrir quem você é sem depender da aprovação virtual.</p>
+</header>
+
+<!-- LOGIN / CADASTRO -->
+<section id="login" class="tela ativa">
+    <div class="card">
+        <h2 id="tituloAuth">Entrar</h2>
+
+        <div id="campoNomeCadastro" style="display:none;">
+            <label>Seu nome</label>
+            <input id="authNome" type="text" placeholder="Como você gostaria de ser chamado?">
+        </div>
+
+        <label>Gmail</label>
+        <input id="authEmail" type="email" placeholder="seuemail@gmail.com">
+
+        <label>Senha</label>
+        <input id="authSenha" type="password" placeholder="Digite sua senha">
+
+        <div id="campoConfirmar" style="display:none;">
+            <label>Confirmar senha</label>
+            <input id="authConfirmar" type="password" placeholder="Digite a senha novamente">
+        </div>
+
+        <div id="campoCodigoVerificacao" style="display:none; margin-top:10px;">
+            <label style="color:#7457e8;">📬 Código enviado para o seu Gmail</label>
+            <input id="authCodigo" type="text" placeholder="Digite o código de 6 dígitos">
+        </div>
+
+        <button class="btn" id="btnAuth" onclick="processarAuth()">Entrar ➔</button>
+        <button class="btn btn-secundario" onclick="alternarAuth()" id="btnAlternarAuth">Criar uma conta</button>
+
+        <p id="mensagemAuth" style="margin-top:14px;text-align:center;font-weight:bold;"></p>
+    </div>
+</section>
+
+<!-- INÍCIO -->
+<section id="inicio" class="tela">
+    <div class="card bem-vindo">
+        <h2>Quem você seria se ninguém pudesse curtir?</h2>
+        <p class="pergunta">Você é quem realmente é ou quem as redes querem que você seja?</p>
+        <p>O <strong class="palavra-essencia" style="font-size:18px;">Essência</strong> foi criado para ajudar você a construir sua identidade a partir de quem você é.</p>
+        <div class="frase">❤️ Seu valor não pode ser medido por curtidas, comentários ou seguidores.</div>
+    </div>
+
+    <div class="card">
+        <h2>🌱 Por onde começar?</h2>
+        <p>Conheça melhor quem você é, realize experiências importantes para sua vida e acompanhe sua evolução.</p>
+        <button class="btn" onclick="abrirTela('perfil')">🪞 Construir meu perfil</button>
+        <button class="btn btn-secundario" onclick="abrirTela('avaliacao')">❤️ Fazer avaliação de hoje</button>
+    </div>
+</section>
+
+<!-- PERFIL -->
+<section id="perfil" class="tela">
+    <div class="card">
+        <h2>🪞 Meu perfil</h2>
+        <p>Aqui não existem seguidores. Apenas coisas que fazem parte de você.</p>
+
+        <label>Seu nome</label>
+        <input id="nome" type="text" placeholder="Como você gostaria de ser chamado?">
+
+        <label>✨ Uma qualidade sua</label>
+        <input id="qualidade" type="text" placeholder="Ex: sou criativo">
+
+        <label>🎨 O que você gosta?</label>
+        <input id="interesses" type="text" placeholder="Ex: música, futebol, desenho">
+
+        <label>💜 O que é importante para você?</label>
+        <input id="valores" type="text" placeholder="Ex: família, amizade">
+
+        <label>🎯 Um objetivo seu</label>
+        <input id="objetivo" type="text" placeholder="Algo que você quer conquistar">
+
+        <button class="btn" onclick="salvarPerfil()">💾 Salvar meu perfil</button>
+        <button class="btn btn-secundario" onclick="sair()">🚪 Sair da conta</button>
+    </div>
+
+    <div id="perfilExibicao"></div>
+</section>
+
+<!-- DESAFIO -->
+<section id="desafio" class="tela">
+    <div id="desafioAtivo" class="card desafio-box">
+        <h2>🌱 Desafio do dia</h2>
+        <div class="numero" id="numeroDesafio"></div>
+        <div class="desafio-texto" id="textoDesafio"></div>
+        <button class="btn" onclick="concluirDesafio()">✓ Concluir desafio</button>
+    </div>
+
+    <div id="desafioConcluido" class="card parabens" style="display:none; text-align:center;">
+        <div style="font-size:50px;">🌟</div>
+        <h2>Desafio concluído!</h2>
+        <p>Você reservou um momento para si hoje. Volte amanhã para um novo desafio!</p>
+        <div class="contador" id="cronometroDesafio">Próximo desafio em: --:--:--</div>
+        <button class="btn" onclick="abrirTela('avaliacao')" style="margin-top:15px;">❤️ Fazer minha avaliação</button>
+    </div>
+</section>
+
+<!-- DIÁRIO -->
+<section id="diario" class="tela">
+    <div class="card">
+        <h2>📖 Meu diário</h2>
+        <p>Algumas coisas têm valor mesmo quando ninguém vê.</p>
+        <textarea id="textoDiario" placeholder="Hoje eu..."></textarea>
+        <button class="btn" onclick="salvarDiario()">✍️ Guardar reflexão</button>
+    </div>
+    <div id="listaDiario"></div>
+</section>
+
+<!-- AVALIAÇÃO -->
+<section id="avaliacao" class="tela">
+    <div class="card">
+        <h2>❤️ Aprovação interna</h2>
+        <p>Depois de viver o desafio, pare por um instante e pergunte:</p>
+        <div class="frase">"Quanto eu gostei de quem eu fui hoje?"</div>
+
+        <div id="avaliacaoBloqueada" style="display:none; text-align:center; margin-top:15px;">
+            <p>Para fazer a avaliação de hoje, você precisa concluir o desafio do dia primeiro.</p>
+            <button class="btn" onclick="abrirTela('desafio')">Ir para o desafio</button>
+        </div>
+
+        <div id="avaliacaoDisponivel" style="display:none;">
+            <div class="estrelas">
+                <button class="estrela" onclick="avaliar(1)">★</button>
+                <button class="estrela" onclick="avaliar(2)">★</button>
+                <button class="estrela" onclick="avaliar(3)">★</button>
+                <button class="estrela" onclick="avaliar(4)">★</button>
+                <button class="estrela" onclick="avaliar(5)">★</button>
+            </div>
+        </div>
+
+        <div id="resultadoAvaliacao"></div>
+    </div>
+
+    <div id="perguntasDiarias" class="card" style="display:none;">
+        <h2>🪞 Agora, olhe para o seu dia</h2>
+        <div id="listaPerguntas"></div>
+        <button class="btn" onclick="salvarPerguntas()">💾 Salvar minhas respostas</button>
+
+        <div class="reflexoes-acesso">
+            <div style="font-size:30px;">📝</div>
+            <strong>Suas reflexões ficam guardadas</strong>
+            <p>Volte quando quiser para perceber sua evolução ao longo do tempo.</p>
+            <button class="btn btn-reflexoes" onclick="abrirTelaReflexoes()">Ver suas reflexões</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📊 Meu progresso</h2>
+        <p id="mediaTexto">Faça uma avaliação para começar.</p>
+        <div class="barra-fundo"><div id="barraProgresso" class="barra"></div></div>
+    </div>
+</section>
+
+<!-- MINHAS REFLEXÕES -->
+<section id="reflexoesPage" class="tela">
+    <div class="card">
+        <h2>📚 Minhas reflexões</h2>
+        <p>Um espaço só seu para revisitar o que você pensou e sentiu.</p>
+        <button class="btn btn-secundario" onclick="abrirTela('avaliacao')" style="margin-bottom: 15px;">⬅️ Voltar para a Avaliação</button>
+        
+        <div id="conteudoReflexoes"></div>
+        
+        <button class="btn btn-secundario" onclick="abrirTela('avaliacao')" style="margin-top: 15px;">⬅️ Voltar para a Avaliação</button>
+    </div>
+</section>
+
+<!-- MENU INFERIOR -->
+<nav class="menu" id="menuPrincipal" style="display:none;">
+    <button id="menuInicio" class="ativo" onclick="abrirTela('inicio')"><span>🏠</span>Início</button>
+    <button id="menuPerfil" onclick="abrirTela('perfil')"><span>🪞</span>Perfil</button>
+    <button id="menuDesafio" onclick="abrirTela('desafio')"><span>🌱</span>Desafio</button>
+    <button id="menuDiario" onclick="abrirTela('diario')"><span>📖</span>Diário</button>
+    <button id="menuAvaliacao" onclick="abrirTela('avaliacao')"><span>❤️</span>Eu</button>
+</nav>
+
+</div>
+
+<script>
+// CHAVES CONFIGURADAS E ATUALIZADAS:
+const EMAILJS_PUBLIC_KEY = "9BBZdFHCP3IKgWKZw";
+const EMAILJS_SERVICE_ID = "service_f3qgrkd";
+const EMAILJS_TEMPLATE_ID = "template_273pv8h"
+
+
+if (typeof emailjs !== "undefined") {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+}
+
+const CHAVE_USUARIOS = "essenciaUsuarios";
+const CHAVE_SESSAO = "essenciaSessao";
+
+function carregarUsuarios() { return JSON.parse(localStorage.getItem(CHAVE_USUARIOS)) || {}; }
+function salvarUsuarios(u) { localStorage.setItem(CHAVE_USUARIOS, JSON.stringify(u)); }
+function usuarioAtual() { const e = localStorage.getItem(CHAVE_SESSAO); return e ? carregarUsuarios()[e] : null; }
+function emailAtual() { return localStorage.getItem(CHAVE_SESSAO); }
+function dataHoje() { return new Date().toISOString().split('T')[0]; }
+
+function escaparHTML(v) {
+    return String(v || "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+}
+
+let modoCadastro = false;
+let codigoEnviado = null;
+let intervaloCronometro = null;
+
+function alternarAuth() {
+    modoCadastro = !modoCadastro;
+    codigoEnviado = null;
+    document.getElementById("tituloAuth").innerText = modoCadastro ? "Criar conta" : "Entrar";
+    document.getElementById("btnAuth").innerText = modoCadastro ? "Enviar Código por E-mail ➔" : "Entrar ➔";
+    document.getElementById("btnAlternarAuth").innerText = modoCadastro ? "Já tenho conta" : "Criar uma conta";
+    document.getElementById("campoNomeCadastro").style.display = modoCadastro ? "block" : "none";
+    document.getElementById("campoConfirmar").style.display = modoCadastro ? "block" : "none";
+    document.getElementById("campoCodigoVerificacao").style.display = "none";
+    document.getElementById("mensagemAuth").innerText = "";
+}
+
+function processarAuth() {
+    const nome = document.getElementById("authNome").value.trim();
+    const email = document.getElementById("authEmail").value.trim().toLowerCase();
+    const senha = document.getElementById("authSenha").value;
+    const msg = document.getElementById("mensagemAuth");
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email) || !email.endsWith("@gmail.com")) {
+        msg.innerText = "Por favor, digite um e-mail válido terminado em @gmail.com";
+        msg.style.color = "#b42318";
+        return;
+    }
+
+    const usuarios = carregarUsuarios();
+
+    if (modoCadastro) {
+        const confirmacao = document.getElementById("authConfirmar").value;
+        if (!nome || !senha || !confirmacao) { 
+            msg.innerText = "Preencha todos os campos."; 
+            msg.style.color = "#b42318"; 
+            return; 
+        }
+        if (senha !== confirmacao) { 
+            msg.innerText = "As senhas não coincidem."; 
+            msg.style.color = "#b42318"; 
+            return; 
+        }
+        if (usuarios[email]) { 
+            msg.innerText = "Este Gmail já está cadastrado."; 
+            msg.style.color = "#b42318"; 
+            return; 
+        }
+
+        if (!codigoEnviado) {
+            codigoEnviado = Math.floor(100000 + Math.random() * 900000).toString();
+            msg.innerText = "Enviando e-mail de verificação...";
+            msg.style.color = "#087f5b";
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                to_email: email,
+                user_name: nome,
+                codigo_verificacao: codigoEnviado
+            }).then(() => {
+                msg.innerText = "Código enviado para o seu Gmail!";
+                msg.style.color = "#087f5b";
+                document.getElementById("campoCodigoVerificacao").style.display = "block";
+                document.getElementById("btnAuth").innerText = "Confirmar Código e Cadastrar ➔";
+            }).catch((err) => {
+                msg.innerText = "Erro ao enviar e-mail. Verifique a caixa do e-mail digitado.";
+                msg.style.color = "#b42318";
+                codigoEnviado = null;
+                console.error("Erro EmailJS:", err);
+            });
+            return;
+        }
+
+        const codigoDigitado = document.getElementById("authCodigo").value.trim();
+        if (codigoDigitado !== codigoEnviado) {
+            msg.innerText = "Código incorreto! Verifique a mensagem no seu e-mail.";
+            msg.style.color = "#b42318";
+            return;
+        }
+
+        usuarios[email] = { nome, senha, perfil:{}, avaliacoes:[], perguntas:{}, diario:[] };
+        salvarUsuarios(usuarios);
+    } else {
+        if (!usuarios[email] || usuarios[email].senha !== senha) {
+            msg.innerText = "E-mail ou senha incorretos."; 
+            msg.style.color = "#b42318"; 
+            return;
+        }
+    }
+
+    localStorage.setItem(CHAVE_SESSAO, email);
+    entrarNoApp();
+}
+
+function entrarNoApp() {
+    document.getElementById("login").classList.remove("ativa");
+    document.getElementById("menuPrincipal").style.display = "flex";
+    abrirTela("inicio");
+}
+
+function sair() {
+    localStorage.removeItem(CHAVE_SESSAO);
+    if(intervaloCronometro) clearInterval(intervaloCronometro);
+    document.querySelectorAll(".tela").forEach(t => t.classList.remove("ativa"));
+    document.getElementById("login").classList.add("ativa");
+    document.getElementById("menuPrincipal").style.display = "none";
+}
+
+function abrirTela(id) {
+    if (!usuarioAtual()) {
+        document.querySelectorAll(".tela").forEach(t => t.classList.remove("ativa"));
+        document.getElementById("login").classList.add("ativa");
+        document.getElementById("menuPrincipal").style.display = "none";
+        return;
+    }
+
+    document.querySelectorAll(".tela").forEach(t => t.classList.remove("ativa"));
+
+    const telaAlvo = document.getElementById(id);
+    if (telaAlvo) {
+        telaAlvo.classList.add("ativa");
+    }
+
+    const menu = document.getElementById("menuPrincipal");
+    if (id === "reflexoesPage") {
+        menu.style.display = "none";
+    } else {
+        menu.style.display = "flex";
+        document.querySelectorAll(".menu button").forEach(b => b.classList.remove("ativo"));
+        const btnMenu = document.getElementById("menu" + id.charAt(0).toUpperCase() + id.slice(1));
+        if (btnMenu) btnMenu.classList.add("ativo");
+    }
+
+    if (id === "avaliacao") mostrarAvaliacao();
+    if (id === "desafio") mostrarDesafio();
+    if (id === "diario") mostrarDiario();
+    if (id === "perfil") mostrarPerfil();
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function abrirTelaReflexoes() {
+    abrirTela("reflexoesPage");
+    const usuario = usuarioAtual();
+    const conteiner = document.getElementById("conteudoReflexoes");
+    const perguntas = usuario.perguntas || {};
+    
+    const registros = Object.entries(perguntas)
+        .filter(([data, item]) => item && (item.p0 || item.p1))
+        .sort((a,b) => b[0].localeCompare(a[0]));
+
+    if (registros.length === 0) {
+        conteiner.innerHTML = `<div class="diario-item">Ainda não há reflexões salvas. 🌱</div>`;
+        return;
+    }
+
+    conteiner.innerHTML = registros.map(([data, item]) => {
+        const dataFmt = data.split("-").reverse().join("/");
+        const nota = Number(item.nota || 0);
+        return `
+            <div class="diario-item" style="margin-bottom:15px;">
+                <div class="data">📅 ${dataFmt} • Nota: ${"★".repeat(nota)}</div>
+                ${item.p0 ? `<p><strong>1. Como se sentiu:</strong> ${escaparHTML(item.p0)}</p>` : ''}
+                ${item.p1 ? `<p style="margin-top:6px;"><strong>2. O que aprendeu:</strong> ${escaparHTML(item.p1)}</p>` : ''}
+            </div>`;
+    }).join("");
+}
+
+function salvarPerfil() {
+    const u = usuarioAtual(); if (!u) return;
+    u.nome = document.getElementById("nome").value.trim() || u.nome;
+    u.perfil = {
+        qualidade: document.getElementById("qualidade").value.trim(),
+        interesses: document.getElementById("interesses").value.trim(),
+        valores: document.getElementById("valores").value.trim(),
+        objetivo: document.getElementById("objetivo").value.trim()
+    };
+    const us = carregarUsuarios(); us[emailAtual()] = u; salvarUsuarios(us);
+    mostrarPerfil(); alert("Perfil salvo! 🌱");
+}
+
+function mostrarPerfil() {
+    const u = usuarioAtual(); if (!u) return;
+    const p = u.perfil || {};
+    document.getElementById("nome").value = u.nome || "";
+    document.getElementById("qualidade").value = p.qualidade || "";
+    document.getElementById("interesses").value = p.interesses || "";
+    document.getElementById("valores").value = p.valores || "";
+    document.getElementById("objetivo").value = p.objetivo || "";
+
+    document.getElementById("perfilExibicao").innerHTML = `
+        <div class="card">
+            <div class="avatar">🌱</div>
+            <div class="perfil-nome">${escaparHTML(u.nome)}</div>
+            <div class="item-perfil"><strong>✨ Qualidade:</strong> ${escaparHTML(p.qualidade || "Vazio")}</div>
+            <div class="item-perfil"><strong>🎨 Interesses:</strong> ${escaparHTML(p.interesses || "Vazio")}</div>
+            <div class="item-perfil"><strong>💜 Valores:</strong> ${escaparHTML(p.valores || "Vazio")}</div>
+            <div class="item-perfil"><strong>🎯 Objetivo:</strong> ${escaparHTML(p.objetivo || "Vazio")}</div>
+        </div>`;
+}
+
+const listaDesafios = [
+    "Escreva três coisas pelas quais você é grato hoje.",
+    "Faça algo gentil por alguém sem esperar nada em troca.",
+    "Organize um espaço importante para você.",
+    "Passe 30 minutos longe de qualquer tela.",
+    "Ouça uma música prestando atenção em cada detalhe dela.",
+    "Escreva uma qualidade sua que você costuma esquecer."
+];
+
+function obterDesafioDoDia() {
+    const hoje = new Date();
+    const inicio = new Date(hoje.getFullYear(), 0, 0);
+    const diff = hoje - inicio;
+    const diaDoAno = Math.floor(diff / (1000 * 60 * 60 * 24));
+    return listaDesafios[diaDoAno % listaDesafios.length];
+}
+
+function mostrarDesafio() {
+    const u = usuarioAtual(); if (!u) return;
+    const feito = u.desafioConcluido === dataHoje();
+
+    document.getElementById("numeroDesafio").innerText = "Desafio do dia";
+    document.getElementById("textoDesafio").innerText = obterDesafioDoDia();
+    document.getElementById("desafioAtivo").style.display = feito ? "none" : "block";
+    document.getElementById("desafioConcluido").style.display = feito ? "block" : "none";
+
+    if (feito) {
+        iniciarCronometro();
+    }
+}
+
+function concluirDesafio() {
+    const u = usuarioAtual(); if (!u) return;
+    u.desafioConcluido = dataHoje();
+    const us = carregarUsuarios(); us[emailAtual()] = u; salvarUsuarios(us);
+    mostrarDesafio();
+}
+
+function iniciarCronometro() {
+    if (intervaloCronometro) clearInterval(intervaloCronometro);
+    
+    function atualizar() {
+        const agora = new Date();
+        const meiaNoite = new Date();
+        meiaNoite.setHours(24, 0, 0, 0);
+        
+        const diff = meiaNoite - agora;
+        if (diff <= 0) {
+            location.reload();
+            return;
+        }
+
+        const h = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, '0');
+        const m = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+        const s = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+
+        const el = document.getElementById("cronometroDesafio");
+        if (el) el.innerText = `Próximo desafio em: ${h}:${m}:${s}`;
+    }
+
+    atualizar();
+    intervaloCronometro = setInterval(atualizar, 1000);
+}
+
+function avaliar(nota) {
+    const u = usuarioAtual(); if (!u) return;
+    u.avaliacoes = u.avaliacoes || [];
+
+    if (u.avaliacoes.some(i => i.data === dataHoje())) {
+        alert("Você já realizou sua avaliação de hoje!");
+        return;
+    }
+
+    u.avaliacoes.push({ nota, data: dataHoje() });
+    const us = carregarUsuarios(); us[emailAtual()] = u; salvarUsuarios(us);
+    mostrarAvaliacao();
+}
+
+function mostrarAvaliacao() {
+    const u = usuarioAtual(); if (!u) return;
+    const avaliacaoHoje = (u.avaliacoes || []).find(i => i.data === dataHoje());
+    const desafioFeito = u.desafioConcluido === dataHoje();
+
+    if (!desafioFeito) {
+        document.getElementById("avaliacaoBloqueada").style.display = "block";
+        document.getElementById("avaliacaoDisponivel").style.display = "none";
+        document.getElementById("resultadoAvaliacao").innerHTML = "";
+        document.getElementById("perguntasDiarias").style.display = "none";
+    } else if (avaliacaoHoje) {
+        document.getElementById("avaliacaoBloqueada").style.display = "none";
+        document.getElementById("avaliacaoDisponivel").style.display = "none";
+        document.getElementById("resultadoAvaliacao").innerHTML = `<div class="frase">Sua nota de hoje foi <strong>${avaliacaoHoje.nota}/5</strong>. ❤️<br><small>Sua avaliação de hoje já está registrada!</small></div>`;
+        mostrarPerguntas(avaliacaoHoje.nota);
+    } else {
+        document.getElementById("avaliacaoBloqueada").style.display = "none";
+        document.getElementById("avaliacaoDisponivel").style.display = "block";
+        document.getElementById("resultadoAvaliacao").innerHTML = "";
+        document.getElementById("perguntasDiarias").style.display = "none";
+    }
+
+    atualizarProgresso();
+}
+
+function mostrarPerguntas(nota) {
+    const bloco = document.getElementById("perguntasDiarias");
+    bloco.style.display = "block";
+    const u = usuarioAtual();
+    const resp = u.perguntas?.[dataHoje()] || {};
+
+    document.getElementById("listaPerguntas").innerHTML = `
+        <div class="pergunta-item"><label>1. Como se sentiu hoje?</label><textarea id="p0">${escaparHTML(resp.p0||"")}</textarea></div>
+        <div class="pergunta-item"><label>2. O que aprendeu?</label><textarea id="p1">${escaparHTML(resp.p1||"")}</textarea></div>
+    `;
+}
+
+function salvarPerguntas() {
+    const u = usuarioAtual(); if (!u) return;
+    u.perguntas = u.perguntas || {};
+    u.perguntas[dataHoje()] = {
+        p0: document.getElementById("p0")?.value.trim() || "",
+        p1: document.getElementById("p1")?.value.trim() || "",
+        nota: (u.avaliacoes || []).find(i => i.data === dataHoje())?.nota || 5
+    };
+    const us = carregarUsuarios(); us[emailAtual()] = u; salvarUsuarios(us);
+    alert("Reflexões salvas! 🌱");
+}
+
+function salvarDiario() {
+    const u = usuarioAtual(); if (!u) return;
+    const t = document.getElementById("textoDiario").value.trim(); if (!t) return;
+    u.diario = u.diario || [];
+    u.diario.unshift({ texto: t, data: new Date().toLocaleDateString("pt-BR") });
+    const us = carregarUsuarios(); us[emailAtual()] = u; salvarUsuarios(us);
+    document.getElementById("textoDiario").value = ""; mostrarDiario();
+}
+
+function mostrarDiario() {
+    const u = usuarioAtual(); if (!u) return;
+    const l = document.getElementById("listaDiario");
+    l.innerHTML = (u.diario || []).map(i => `<div class="card diario-item"><div class="data">${escaparHTML(i.data)}</div>${escaparHTML(i.texto)}</div>`).join("");
+}
+
+function atualizarProgresso() {
+    const u = usuarioAtual(); if (!u) return;
+    const avs = u.avaliacoes || [];
+    if (!avs.length) return;
+    const media = avs.reduce((a,b)=>a+Number(b.nota),0)/avs.length;
+    document.getElementById("mediaTexto").innerText = `Média de aprovação interna: ${media.toFixed(1)} / 5`;
+    document.getElementById("barraProgresso").style.width = (media * 20) + "%";
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    if (usuarioAtual()) {
+        entrarNoApp();
+    } else {
+        sair();
+    }
+});
+</script>
+</body>
+</html>
