@@ -23,6 +23,7 @@
     --primary:#087f5b;
     --primary-dark:#056044;
     --secondary:#12b886;
+    --deep:#0d5a41;
     --ink:#183b32;
     --muted:#667a73;
     --soft:#e8f8f1;
@@ -31,8 +32,8 @@
     --erro:#b42318;
     --shadow:0 18px 50px rgba(8,127,91,.13);
 
-    --font-brand: 'Playfair Display', Georgia, serif;
-    --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-brand: 'Playfair Display', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+    --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
     --largura: 640px;
 }
@@ -41,21 +42,22 @@ html{scroll-behavior:smooth}
 
 body{
     font-family: var(--font-main);
-    background:#0d5a41;
+    background: var(--deep);
     color:var(--ink);
     min-height:100vh;
     overflow-x:hidden;
 }
 
-/* Fundo em camada própria: evita o background-attachment:fixed,
-   que trava ou é ignorado no Safari do iPhone. */
+/* Fundo só com CSS: nada de imagem externa para baixar no celular */
 .fundo{
     position:fixed;
     inset:0;
     z-index:-1;
     background:
-      linear-gradient(rgba(6,46,33,.55), rgba(8,60,42,.65)),
-      #0d5a41 url('https://images.unsplash.com/photo-1771526087639-02bf6d603d4b?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+      radial-gradient(60% 45% at 18% 8%, rgba(18,184,134,.42), transparent 70%),
+      radial-gradient(55% 40% at 88% 22%, rgba(8,127,91,.38), transparent 72%),
+      radial-gradient(70% 50% at 50% 108%, rgba(4,60,42,.55), transparent 70%),
+      linear-gradient(165deg, #0f6c4e 0%, #0d5a41 45%, #08432f 100%);
 }
 
 .app{
@@ -64,6 +66,17 @@ body{
     margin:0;
     background:rgba(255,255,255,.42);
     position:relative;
+}
+
+/* Ícones em SVG: iguais em qualquer aparelho, ao contrário dos emojis */
+.ic{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.menu .ic{width:22px;height:22px;display:block;margin:0 auto 4px}
+.ic-fill{fill:currentColor;stroke:none}
+
+.vh{
+    position:absolute!important;width:1px;height:1px;
+    padding:0;margin:-1px;overflow:hidden;
+    clip-path:inset(50%);white-space:nowrap;border:0;
 }
 
 header{
@@ -86,7 +99,7 @@ header:after{width:130px;height:130px;right:-45px;bottom:-55px}
 
 .cabecalho-conteudo{position:relative;max-width:var(--largura);margin:0 auto}
 
-.logo{font-size:48px;filter:drop-shadow(0 8px 12px rgba(0,0,0,.12))}
+.logo{font-size:48px;line-height:1;filter:drop-shadow(0 8px 12px rgba(0,0,0,.12))}
 
 .palavra-essencia{
     font-family:var(--font-brand);
@@ -173,7 +186,7 @@ header p{
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:8px;
+    gap:9px;
     letter-spacing:.3px;
 }
 
@@ -196,6 +209,11 @@ header p{
     box-shadow:0 6px 18px rgba(8,127,91,.10);
 }
 
+.btn-perigo{
+    background:#fff;color:var(--erro);border:2px solid #f3cfcb;box-shadow:none;
+}
+.btn-perigo:hover:not(:disabled){background:#fdeceb;color:#8e1a12;border-color:#e9b6b0}
+
 .btn-linha{
     background:none;border:none;color:#087f5b;font-family:var(--font-main);
     font-weight:700;font-size:14px;cursor:pointer;padding:12px 4px;width:100%;
@@ -206,12 +224,14 @@ header p{
     background:#fff;border:1.5px solid #cfeade;color:#087f5b;
     font-family:var(--font-main);font-weight:700;font-size:13px;
     padding:7px 13px;border-radius:11px;cursor:pointer;transition:.2s ease;
+    display:inline-flex;align-items:center;gap:7px;
 }
+.btn-mini .ic{width:15px;height:15px}
 .btn-mini:hover{background:#e5f6ef}
 .btn-mini.perigo{border-color:#f3cfcb;color:var(--erro)}
 .btn-mini.perigo:hover{background:#fdeceb}
 
-:focus-visible{outline:3px solid #7457e8;outline-offset:2px;border-radius:6px}
+:focus-visible{outline:3px solid #0a6b4e;outline-offset:2px;border-radius:6px}
 
 label{
     display:block;
@@ -225,7 +245,7 @@ label{
 input,textarea{
     width:100%;
     border:2px solid var(--line);
-    background:#fcfbff;
+    background:#fbfefc;
     border-radius:14px;
     padding:14px 16px;
     font-family:var(--font-main);
@@ -257,10 +277,10 @@ textarea{height:120px;resize:vertical;line-height:1.55}
     background:linear-gradient(135deg,#eefaf5,#fff);
     border:1px solid #dcefe7;padding:16px;border-radius:16px;margin-top:10px;
 }
-.item-perfil strong{color:#087f5b}
+.item-perfil strong{color:#087f5b;display:block;font-size:13px;margin-bottom:3px}
 
 .desafio-box{text-align:center}
-.numero{font-size:13px;color:#8a839b;margin-bottom:12px;font-weight:700;letter-spacing:.5px}
+.numero{font-size:13px;color:#71857e;margin-bottom:12px;font-weight:700;letter-spacing:.5px}
 .desafio-texto{font-size:22px;line-height:1.45;font-weight:800;color:#174f40;margin:22px 0}
 
 .contador{
@@ -286,13 +306,17 @@ textarea{height:120px;resize:vertical;line-height:1.55}
 
 .estrela{
     flex:1;max-width:58px;height:49px;
-    border:1px solid #d8ece3;background:#fff;color:#9cc9b8;
-    font-size:29px;border-radius:15px;cursor:pointer;transition:.2s ease;
+    border:1px solid #d8ece3;background:#fff;color:#bcd8cc;
+    border-radius:15px;cursor:pointer;transition:.18s ease;
+    display:flex;align-items:center;justify-content:center;
 }
-.estrela:hover{color:#7457e8}
+.estrela .ic{width:26px;height:26px;stroke-width:1.6}
+.estrela.acesa{color:#0d9c72;border-color:#bfe6d5;background:#f3fdf8}
+.estrela.acesa .ic{fill:currentColor}
+.estrelas.somenteleitura .estrela{cursor:default}
 
 .barra-fundo{height:13px;background:#dcece5;border-radius:99px;overflow:hidden;margin-top:15px}
-.barra{height:100%;width:0%;background:linear-gradient(90deg,#7457e8,#12b886);transition:width .5s;border-radius:99px}
+.barra{height:100%;width:0%;background:linear-gradient(90deg,#12b886,#087f5b);transition:width .5s;border-radius:99px}
 
 .semana{display:flex;gap:7px;margin-top:18px}
 .dia{
@@ -300,9 +324,9 @@ textarea{height:120px;resize:vertical;line-height:1.55}
     background:#f1f8f5;border:1px solid #e0efe8;
 }
 .dia small{display:block;font-size:11px;color:#71857e;font-weight:700;margin-bottom:4px}
-.dia b{font-size:15px;color:#c2d6ce}
-.dia.feito{background:linear-gradient(135deg,#eadfff,#dff7ed);border-color:#d3c5f7}
-.dia.feito b{color:#7457e8}
+.dia .marca{display:flex;align-items:center;justify-content:center;height:20px;color:#c2d6ce;font-weight:800}
+.dia.feito{background:linear-gradient(135deg,#dff7ed,#eefaf5);border-color:#bfe6d5}
+.dia.feito .marca{color:#0d9c72}
 .dia.hoje{box-shadow:0 0 0 2px #12b886}
 
 .destaques{display:flex;gap:12px;margin-top:6px}
@@ -328,20 +352,14 @@ textarea{height:120px;resize:vertical;line-height:1.55}
     font-size:11px;font-weight:700;cursor:pointer;
     padding:7px 9px;border-radius:15px;min-width:58px;transition:.2s ease;
 }
-.menu button span{display:block;font-size:21px;margin-bottom:3px}
 .menu button.ativo{color:#087f5b;background:#e5f6ef;font-weight:800}
 
 .reflexoes-acesso{
     margin-top:14px;padding:16px;border-radius:20px;
-    background:linear-gradient(135deg,#f5fffb,#f2edff);
+    background:linear-gradient(135deg,#f5fffb,#eaf8f1);
     border:1px solid #dce9e4;text-align:center;
 }
-
-.btn-reflexoes{
-    background:linear-gradient(135deg,#7457e8,#5c49c8);
-    box-shadow:0 10px 24px rgba(116,87,232,.20);
-}
-.btn-reflexoes:hover:not(:disabled){background:linear-gradient(135deg,#6a4ce0,#5540bd)}
+.reflexoes-acesso strong{color:#056044}
 
 .pergunta-item{
     margin-top:15px;padding:16px;border-radius:17px;
@@ -358,10 +376,10 @@ textarea{height:120px;resize:vertical;line-height:1.55}
 
 .apoio{
     margin-top:16px;padding:14px 16px;border-radius:16px;
-    background:#f4f1ff;border:1px solid #ded4fa;
-    font-size:13.5px;line-height:1.6;color:#4a3f75;font-weight:500;
+    background:#eef7f3;border:1px solid #d3e8de;
+    font-size:13.5px;line-height:1.6;color:#33564a;font-weight:500;
 }
-.apoio a{color:#5c49c8;font-weight:700}
+.apoio a{color:#056044;font-weight:700}
 
 .mensagem{margin-top:14px;text-align:center;font-weight:700;min-height:20px;line-height:1.5}
 
@@ -390,6 +408,26 @@ textarea{height:120px;resize:vertical;line-height:1.55}
 
 <div class="fundo" aria-hidden="true"></div>
 
+<!-- Biblioteca de ícones (Lucide, licença ISC) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9.5 12 3l9 6.5V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22v-9h6v9"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6-5.4-2.9-5.4 2.9 1-6L3.2 9.4l6.1-.9z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3.5 6h.01"/><path d="M3.5 12h.01"/><path d="M3.5 18h.01"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></symbol>
+  <symbol id="i-mirror" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="15" rx="6"/><path d="M12 17v5"/><path d="M8.5 22h7"/></symbol>
+</svg>
+
 <div class="app">
 
 <header>
@@ -417,7 +455,7 @@ textarea{height:120px;resize:vertical;line-height:1.55}
             </div>
 
             <div id="campoCodigo" class="oculto">
-                <label for="authCodigo" style="color:#7457e8;">Código enviado para o seu e-mail</label>
+                <label for="authCodigo">Código enviado para o seu e-mail</label>
                 <input id="authCodigo" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Os 6 dígitos que você recebeu">
             </div>
 
@@ -434,6 +472,8 @@ textarea{height:120px;resize:vertical;line-height:1.55}
             <button class="btn" id="btnAuth" type="submit">Entrar</button>
         </form>
 
+        <button class="btn btn-secundario oculto" type="button" id="btnSemEmail" onclick="criarContaSemCodigo()">Criar conta sem o código</button>
+
         <button class="btn btn-secundario" type="button" onclick="alternarAuth()" id="btnAlternarAuth">Criar uma conta</button>
         <button class="btn-linha" type="button" onclick="modoRecuperar()" id="btnEsqueci">Esqueci minha senha</button>
 
@@ -441,6 +481,10 @@ textarea{height:120px;resize:vertical;line-height:1.55}
 
         <div class="aviso">
             <strong>Antes de começar:</strong> tudo o que você escrever fica guardado apenas neste aparelho e neste navegador. Se limpar os dados do navegador ou trocar de celular, os registros não vão junto. Dentro do app você pode baixar uma cópia de segurança a qualquer momento.
+        </div>
+
+        <div class="aviso">
+            <strong>Sobre a sua senha:</strong> a conta existe só aqui no aparelho, sem servidor. Quem tiver acesso desbloqueado a este celular ou computador pode chegar aos seus registros. Não use aqui a mesma senha do seu e-mail ou do banco.
         </div>
     </div>
 </section>
@@ -455,77 +499,83 @@ textarea{height:120px;resize:vertical;line-height:1.55}
     </div>
 
     <div class="card">
-        <h2>🌱 Por onde começar?</h2>
-        <p>Conheça melhor quem você é, realize experiências importantes para sua vida e acompanhe sua evolução.</p>
-        <button class="btn" type="button" onclick="abrirTela('perfil')">🪞 Construir meu perfil</button>
-        <button class="btn btn-secundario" type="button" onclick="abrirTela('desafio')">🌱 Ver o desafio de hoje</button>
+        <h2>Por onde começar</h2>
+        <p>Conheça melhor quem você é, realize experiências importantes para sua vida e acompanhe sua caminhada.</p>
+        <button class="btn" type="button" onclick="abrirTela('perfil')"><svg class="ic" aria-hidden="true"><use href="#i-mirror"/></svg>Construir meu perfil</button>
+        <button class="btn btn-secundario" type="button" onclick="abrirTela('desafio')"><svg class="ic" aria-hidden="true"><use href="#i-sprout"/></svg>Ver o desafio de hoje</button>
     </div>
 </section>
 
 <!-- PERFIL -->
 <section id="perfil" class="tela">
     <div class="card">
-        <h2>🪞 Meu perfil</h2>
+        <h2>Meu perfil</h2>
         <p>Aqui não existem seguidores. Apenas coisas que fazem parte de você.</p>
 
         <form id="formPerfil" novalidate>
             <label for="nome">Seu nome</label>
             <input id="nome" type="text" autocomplete="name" placeholder="Como você gostaria de ser chamado?">
 
-            <label for="qualidade">✨ Uma qualidade sua</label>
+            <label for="qualidade">Uma qualidade sua</label>
             <input id="qualidade" type="text" placeholder="Ex: sou criativo">
 
-            <label for="interesses">🎨 O que você gosta?</label>
+            <label for="interesses">O que você gosta?</label>
             <input id="interesses" type="text" placeholder="Ex: música, futebol, desenho">
 
-            <label for="valores">💜 O que é importante para você?</label>
+            <label for="valores">O que é importante para você?</label>
             <input id="valores" type="text" placeholder="Ex: família, amizade">
 
-            <label for="objetivo">🎯 Um objetivo seu</label>
+            <label for="objetivo">Um objetivo seu</label>
             <input id="objetivo" type="text" placeholder="Algo que você quer conquistar">
 
-            <button class="btn" type="submit">💾 Salvar meu perfil</button>
+            <button class="btn" type="submit"><svg class="ic" aria-hidden="true"><use href="#i-save"/></svg>Salvar meu perfil</button>
         </form>
     </div>
 
     <div id="perfilExibicao"></div>
 
     <div class="card">
-        <h2>💾 Cópia de segurança</h2>
-        <p>Seus registros ficam só neste navegador. Baixe uma cópia de vez em quando e guarde no seu e-mail ou na nuvem — assim você consegue recuperar tudo em outro aparelho.</p>
-        <button class="btn btn-secundario" type="button" onclick="exportarDados()">⬇️ Baixar meus dados</button>
-        <button class="btn btn-secundario" type="button" onclick="document.getElementById('arquivoImportar').click()">⬆️ Restaurar de um arquivo</button>
+        <h2>Cópia de segurança</h2>
+        <p>Seus registros ficam só neste navegador. Baixe uma cópia de vez em quando e guarde no seu e-mail ou na nuvem — assim você consegue recuperar tudo em outro aparelho. O arquivo sai sem senha: quem abrir lê o seu diário.</p>
+        <button class="btn btn-secundario" type="button" onclick="exportarDados()"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Baixar meus dados</button>
+        <button class="btn btn-secundario" type="button" onclick="document.getElementById('arquivoImportar').click()"><svg class="ic" aria-hidden="true"><use href="#i-upload"/></svg>Restaurar de um arquivo</button>
         <input id="arquivoImportar" type="file" accept="application/json,.json" class="oculto" onchange="importarDados(event)">
-        <button class="btn btn-secundario" type="button" onclick="sair()">🚪 Sair da conta</button>
+        <button class="btn btn-secundario" type="button" onclick="sair()"><svg class="ic" aria-hidden="true"><use href="#i-logout"/></svg>Sair da conta</button>
+    </div>
+
+    <div class="card">
+        <h2>Apagar minha conta</h2>
+        <p>Isso remove deste aparelho o seu perfil, o diário, as avaliações e as reflexões. Não dá para desfazer, e nós não temos cópia em lugar nenhum. Se quiser guardar alguma coisa, baixe seus dados antes.</p>
+        <button class="btn btn-perigo" type="button" onclick="apagarConta()"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg>Apagar conta e todos os dados</button>
     </div>
 </section>
 
 <!-- DESAFIO -->
 <section id="desafio" class="tela">
     <div id="desafioAtivo" class="card desafio-box">
-        <h2>🌱 Desafio do dia</h2>
+        <h2>Desafio do dia</h2>
         <div class="numero" id="numeroDesafio"></div>
         <div class="desafio-texto" id="textoDesafio"></div>
-        <button class="btn" type="button" onclick="concluirDesafio()">✓ Concluir desafio</button>
+        <button class="btn" type="button" onclick="concluirDesafio()"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Concluir desafio</button>
     </div>
 
     <div id="desafioConcluido" class="card oculto" style="text-align:center;">
-        <div style="font-size:50px;" aria-hidden="true">🌟</div>
-        <h2>Desafio concluído!</h2>
+        <div style="font-size:44px;line-height:1" aria-hidden="true">🌱</div>
+        <h2>Desafio concluído</h2>
         <p>Você reservou um momento para si hoje. Volte amanhã para um novo desafio.</p>
         <div class="contador" id="cronometroDesafio">Próximo desafio em: --:--:--</div>
-        <button class="btn" type="button" onclick="abrirTela('avaliacao')" style="margin-top:15px;">❤️ Fazer minha avaliação</button>
+        <button class="btn" type="button" onclick="abrirTela('avaliacao')" style="margin-top:15px;"><svg class="ic" aria-hidden="true"><use href="#i-heart"/></svg>Fazer minha avaliação</button>
     </div>
 </section>
 
 <!-- DIÁRIO -->
 <section id="diario" class="tela">
     <div class="card">
-        <h2>📖 Meu diário</h2>
+        <h2>Meu diário</h2>
         <p>Algumas coisas têm valor mesmo quando ninguém vê.</p>
-        <label for="textoDiario" class="oculto">Escreva sua reflexão</label>
+        <label for="textoDiario" class="vh">Escreva sua reflexão</label>
         <textarea id="textoDiario" placeholder="Hoje eu..."></textarea>
-        <button class="btn" type="button" onclick="salvarDiario()">✍️ Guardar reflexão</button>
+        <button class="btn" type="button" onclick="salvarDiario()"><svg class="ic" aria-hidden="true"><use href="#i-save"/></svg>Guardar reflexão</button>
 
         <div class="apoio">
             Se algum dia o que você está sentindo ficar pesado demais para carregar sozinho, conversar ajuda: procure alguém em quem você confia ou ligue para o CVV no <a href="tel:188">188</a> — é gratuito, sigiloso e funciona 24 horas.
@@ -537,76 +587,69 @@ textarea{height:120px;resize:vertical;line-height:1.55}
 <!-- AVALIAÇÃO -->
 <section id="avaliacao" class="tela">
     <div class="card">
-        <h2>❤️ Aprovação interna</h2>
+        <h2>Aprovação interna</h2>
         <p>Depois de viver o desafio, pare por um instante e pergunte:</p>
         <div class="frase">"Quanto eu gostei de quem eu fui hoje?"</div>
 
         <div id="avaliacaoBloqueada" class="oculto" style="text-align:center;margin-top:15px;">
             <p>A avaliação de hoje abre depois que você concluir o desafio do dia.</p>
-            <button class="btn" type="button" onclick="abrirTela('desafio')">Ir para o desafio</button>
+            <button class="btn" type="button" onclick="abrirTela('desafio')"><svg class="ic" aria-hidden="true"><use href="#i-sprout"/></svg>Ir para o desafio</button>
         </div>
 
         <div id="avaliacaoDisponivel" class="oculto">
-            <div class="estrelas" role="group" aria-label="Escolha de 1 a 5">
-                <button class="estrela" type="button" aria-label="1 estrela" onclick="avaliar(1)">★</button>
-                <button class="estrela" type="button" aria-label="2 estrelas" onclick="avaliar(2)">★</button>
-                <button class="estrela" type="button" aria-label="3 estrelas" onclick="avaliar(3)">★</button>
-                <button class="estrela" type="button" aria-label="4 estrelas" onclick="avaliar(4)">★</button>
-                <button class="estrela" type="button" aria-label="5 estrelas" onclick="avaliar(5)">★</button>
-            </div>
+            <div class="estrelas" id="estrelas" role="radiogroup" aria-label="De 1 a 5, quanto você gostou de quem foi hoje"></div>
         </div>
 
         <div id="resultadoAvaliacao"></div>
     </div>
 
     <div id="perguntasDiarias" class="card oculto">
-        <h2>🪞 Agora, olhe para o seu dia</h2>
+        <h2>Agora, olhe para o seu dia</h2>
         <div id="listaPerguntas"></div>
-        <button class="btn" type="button" onclick="salvarPerguntas()">💾 Salvar minhas respostas</button>
+        <button class="btn" type="button" onclick="salvarPerguntas()"><svg class="ic" aria-hidden="true"><use href="#i-save"/></svg>Salvar minhas respostas</button>
 
         <div class="reflexoes-acesso">
-            <div style="font-size:30px;" aria-hidden="true">📝</div>
             <strong>Suas reflexões ficam guardadas</strong>
             <p>Volte quando quiser para perceber sua evolução ao longo do tempo.</p>
-            <button class="btn btn-reflexoes" type="button" onclick="abrirTelaReflexoes()">Ver minhas reflexões</button>
+            <button class="btn btn-secundario" type="button" onclick="abrirTelaReflexoes()"><svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>Ver minhas reflexões</button>
         </div>
     </div>
 
     <div class="card">
-        <h2>📊 Minha caminhada</h2>
+        <h2>Minha caminhada</h2>
         <p id="textoCaminhada">Conclua o desafio de hoje para começar a sua caminhada.</p>
 
         <div class="destaques">
-            <div class="destaque"><b id="statSequencia">0</b><small>dias seguidos</small></div>
+            <div class="destaque"><b id="statMes">0</b><small>dias neste mês</small></div>
             <div class="destaque"><b id="statTotal">0</b><small>dias registrados</small></div>
         </div>
 
         <div class="semana" id="semana" aria-label="Últimos sete dias"></div>
         <div class="barra-fundo"><div id="barraProgresso" class="barra"></div></div>
-        <p style="margin-top:10px;font-size:13px;color:#71857e;">Esta barra mostra em quantos dos últimos 7 dias você parou para olhar para si — não uma nota sobre você.</p>
+        <p style="margin-top:10px;font-size:13px;color:#71857e;">Isto mostra em quais dos últimos 7 dias você parou para olhar para si. Faltar um dia não apaga os outros.</p>
     </div>
 </section>
 
 <!-- MINHAS REFLEXÕES -->
 <section id="reflexoesPage" class="tela">
     <div class="card">
-        <h2>📚 Minhas reflexões</h2>
+        <h2>Minhas reflexões</h2>
         <p>Um espaço só seu para revisitar o que você pensou e sentiu.</p>
-        <button class="btn btn-secundario" type="button" onclick="abrirTela('avaliacao')" style="margin-bottom:15px;">⬅️ Voltar para a avaliação</button>
+        <button class="btn btn-secundario" type="button" onclick="abrirTela('avaliacao')" style="margin-bottom:15px;"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg>Voltar para a avaliação</button>
 
         <div id="conteudoReflexoes"></div>
 
-        <button class="btn btn-secundario" type="button" onclick="abrirTela('avaliacao')" style="margin-top:15px;">⬅️ Voltar para a avaliação</button>
+        <button class="btn btn-secundario" type="button" onclick="abrirTela('avaliacao')" style="margin-top:15px;"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg>Voltar para a avaliação</button>
     </div>
 </section>
 
 <!-- MENU INFERIOR -->
 <nav class="menu oculto" id="menuPrincipal" aria-label="Navegação principal">
-    <button id="menuInicio" class="ativo" type="button" onclick="abrirTela('inicio')"><span aria-hidden="true">🏠</span>Início</button>
-    <button id="menuPerfil" type="button" onclick="abrirTela('perfil')"><span aria-hidden="true">🪞</span>Perfil</button>
-    <button id="menuDesafio" type="button" onclick="abrirTela('desafio')"><span aria-hidden="true">🌱</span>Desafio</button>
-    <button id="menuDiario" type="button" onclick="abrirTela('diario')"><span aria-hidden="true">📖</span>Diário</button>
-    <button id="menuAvaliacao" type="button" onclick="abrirTela('avaliacao')"><span aria-hidden="true">❤️</span>Eu</button>
+    <button id="menuInicio" class="ativo" type="button" onclick="abrirTela('inicio')"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg>Início</button>
+    <button id="menuPerfil" type="button" onclick="abrirTela('perfil')"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg>Perfil</button>
+    <button id="menuDesafio" type="button" onclick="abrirTela('desafio')"><svg class="ic" aria-hidden="true"><use href="#i-sprout"/></svg>Desafio</button>
+    <button id="menuDiario" type="button" onclick="abrirTela('diario')"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg>Diário</button>
+    <button id="menuAvaliacao" type="button" onclick="abrirTela('avaliacao')"><svg class="ic" aria-hidden="true"><use href="#i-heart"/></svg>Eu</button>
 </nav>
 
 </div>
@@ -635,12 +678,47 @@ function carregarUsuarios(){
     catch(e){ return {}; }
 }
 function salvarUsuarios(u){
-    try { localStorage.setItem(CHAVE_USUARIOS, JSON.stringify(u)); }
-    catch(e){ mostrarToast("Não foi possível salvar. O armazenamento do navegador está cheio ou bloqueado."); }
+    try { localStorage.setItem(CHAVE_USUARIOS, JSON.stringify(u)); return true; }
+    catch(e){
+        mostrarToast("Não deu para salvar: o armazenamento do navegador está cheio ou bloqueado.");
+        return false;
+    }
 }
 function emailAtual(){ return localStorage.getItem(CHAVE_SESSAO); }
-function usuarioAtual(){ const e = emailAtual(); return e ? carregarUsuarios()[e] : null; }
-function gravarUsuario(u){ const us = carregarUsuarios(); us[emailAtual()] = u; salvarUsuarios(us); }
+
+function usuarioAtual(){
+    const e = emailAtual();
+    if (!e) return null;
+    const u = carregarUsuarios()[e];
+    return u ? normalizarUsuario(u) : null;
+}
+
+function gravarUsuario(u){
+    const email = emailAtual();
+    if (!email) return false;
+    const us = carregarUsuarios();
+    us[email] = u;
+    return salvarUsuarios(us);
+}
+
+/* Garante que contas antigas tenham a estrutura nova */
+function normalizarUsuario(u){
+    u.perfil     = u.perfil     || {};
+    u.avaliacoes = Array.isArray(u.avaliacoes) ? u.avaliacoes : [];
+    u.diario     = Array.isArray(u.diario)     ? u.diario     : [];
+    u.perguntas  = u.perguntas  || {};
+    u.desafiosFeitos = Array.isArray(u.desafiosFeitos) ? u.desafiosFeitos : [];
+
+    // Antes só existia a última data concluída; agora o histórico é completo
+    if (u.desafioConcluido){
+        if (!u.desafiosFeitos.includes(u.desafioConcluido)) u.desafiosFeitos.push(u.desafioConcluido);
+        delete u.desafioConcluido;
+    }
+    // Avaliações antigas também indicam um dia em que a pessoa esteve aqui
+    u.avaliacoes.forEach(a => { if (a && a.data && !u.desafiosFeitos.includes(a.data)) u.desafiosFeitos.push(a.data); });
+    u.desafiosFeitos.sort();
+    return u;
+}
 
 function dataHoje(){ return dataISO(new Date()); }
 function dataISO(d){
@@ -652,6 +730,10 @@ function escaparHTML(v){
     return String(v ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
 }
 
+function icone(nome){
+    return `<svg class="ic" aria-hidden="true"><use href="#i-${nome}"/></svg>`;
+}
+
 function mostrarToast(texto){
     const t = document.getElementById("toast");
     t.textContent = texto;
@@ -661,43 +743,91 @@ function mostrarToast(texto){
 }
 
 function mostrar(id, visivel){
-    document.getElementById(id).classList.toggle("oculto", !visivel);
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle("oculto", !visivel);
 }
 
 /* ============================================================
-   SENHAS — guardadas como hash + sal, nunca em texto puro
+   SENHAS
+   Guardadas como hash com sal. PBKDF2 (150 mil voltas) para
+   deixar a tentativa de adivinhação lenta; SHA-256 e FNV ficam
+   apenas para conseguir ler contas criadas nas versões antigas.
    ============================================================ */
+const ITERACOES_PBKDF2 = 150000;
+
+function temWebCrypto(){
+    return !!(window.crypto && crypto.subtle && crypto.subtle.digest);
+}
+
 function gerarSal(){
     const a = new Uint8Array(16);
     crypto.getRandomValues(a);
     return [...a].map(b => b.toString(16).padStart(2,"0")).join("");
 }
 
-async function gerarHash(senha, sal){
+function paraHex(buffer){
+    return [...new Uint8Array(buffer)].map(b => b.toString(16).padStart(2,"0")).join("");
+}
+
+function hashFNV(senha, sal){
     const dados = new TextEncoder().encode(sal + "::" + senha);
-    if (window.crypto && crypto.subtle && crypto.subtle.digest){
-        const buffer = await crypto.subtle.digest("SHA-256", dados);
-        return "sha256:" + [...new Uint8Array(buffer)].map(b => b.toString(16).padStart(2,"0")).join("");
-    }
-    // Reserva para navegadores sem Web Crypto (ex.: arquivo aberto sem https)
     let h = 0x811c9dc5;
     for (const b of dados){ h ^= b; h = Math.imul(h, 0x01000193) >>> 0; }
     return "fnv:" + h.toString(16);
 }
 
-async function conferirSenha(usuario, senha){
-    // Migra contas antigas que guardavam a senha em texto puro
+async function hashSHA256(senha, sal){
+    const dados = new TextEncoder().encode(sal + "::" + senha);
+    return "sha256:" + paraHex(await crypto.subtle.digest("SHA-256", dados));
+}
+
+async function hashPBKDF2(senha, sal){
+    const chave = await crypto.subtle.importKey(
+        "raw", new TextEncoder().encode(senha), "PBKDF2", false, ["deriveBits"]
+    );
+    const bits = await crypto.subtle.deriveBits(
+        { name:"PBKDF2", salt:new TextEncoder().encode(sal), iterations:ITERACOES_PBKDF2, hash:"SHA-256" },
+        chave, 256
+    );
+    return "pbkdf2:" + paraHex(bits);
+}
+
+/* Formato usado para senhas novas */
+async function gerarHash(senha, sal){
+    if (temWebCrypto() && crypto.subtle.deriveBits){
+        try { return await hashPBKDF2(senha, sal); }
+        catch(e){ console.warn("PBKDF2 indisponível, usando SHA-256", e); return await hashSHA256(senha, sal); }
+    }
+    return hashFNV(senha, sal);
+}
+
+async function conferirSenha(usuario, senha, email){
+    let confere = false;
+    let precisaAtualizar = false;
+
     if (usuario.senha !== undefined){
-        if (usuario.senha !== senha) return false;
+        // Conta bem antiga: senha guardada em texto puro
+        confere = (usuario.senha === senha);
+        precisaAtualizar = confere;
+    } else if (String(usuario.hash).startsWith("pbkdf2:")){
+        confere = (usuario.hash === await hashPBKDF2(senha, usuario.sal));
+    } else if (String(usuario.hash).startsWith("sha256:")){
+        confere = temWebCrypto() && usuario.hash === await hashSHA256(senha, usuario.sal);
+        precisaAtualizar = confere;
+    } else {
+        confere = (usuario.hash === hashFNV(senha, usuario.sal));
+        precisaAtualizar = confere && temWebCrypto();
+    }
+
+    if (confere && precisaAtualizar && email){
         usuario.sal = gerarSal();
         usuario.hash = await gerarHash(senha, usuario.sal);
         delete usuario.senha;
         const us = carregarUsuarios();
-        us[document.getElementById("authEmail").value.trim().toLowerCase()] = usuario;
+        us[email] = usuario;
         salvarUsuarios(us);
-        return true;
     }
-    return usuario.hash === await gerarHash(senha, usuario.sal);
+    return confere;
 }
 
 function gerarCodigo(){
@@ -728,6 +858,7 @@ function renderAuth(){
     mostrar("campoSenha", !rec || pendente);
     mostrar("campoConfirmar", cad || (rec && pendente));
     mostrar("btnEsqueci", modo === "login");
+    if (!cad) mostrar("btnSemEmail", false);
 
     const senha = document.getElementById("authSenha");
     document.getElementById("labelSenha").textContent = rec ? "Nova senha" : "Senha";
@@ -758,6 +889,7 @@ function alternarAuth(){
     modo = (modo === "login") ? "cadastro" : "login";
     verificacao = null;
     document.getElementById("authCodigo").value = "";
+    mostrar("btnSemEmail", false);
     limparMensagem();
     renderAuth();
 }
@@ -768,6 +900,7 @@ function modoRecuperar(){
     document.getElementById("authSenha").value = "";
     document.getElementById("authConfirmar").value = "";
     document.getElementById("authCodigo").value = "";
+    mostrar("btnSemEmail", false);
     limparMensagem();
     renderAuth();
 }
@@ -797,7 +930,6 @@ async function processarAuth(){
 
     if (!emailValido(email)) return avisoAuth("Digite um e-mail válido, como nome@provedor.com", true);
 
-    // Se o e-mail mudou depois do envio, o código anterior não vale mais
     if (verificacao && verificacao.email !== email){
         verificacao = null;
         document.getElementById("authCodigo").value = "";
@@ -815,9 +947,13 @@ async function processarAuth(){
     /* ---------- ENTRAR ---------- */
     if (modo === "login"){
         const u = usuarios[email];
-        if (!u || !(await conferirSenha(u, senha))){
-            return avisoAuth("E-mail ou senha incorretos.", true);
-        }
+        btn.disabled = true;
+        try {
+            if (!u || !(await conferirSenha(u, senha, email))){
+                return avisoAuth("E-mail ou senha incorretos.", true);
+            }
+        } finally { btn.disabled = false; }
+
         localStorage.setItem(CHAVE_SESSAO, email);
         limparMensagem();
         entrarNoApp();
@@ -840,14 +976,14 @@ async function processarAuth(){
             try {
                 await enviarCodigo(email, nome, codigo);
                 verificacao = { codigo, email, nome, tipo:"cadastro", expira: Date.now() + VALIDADE_CODIGO };
+                mostrar("btnSemEmail", false);
                 renderAuth();
                 avisoAuth("Código enviado. Confira também a caixa de spam.");
             } catch (err){
                 console.error("Falha no envio:", err);
-                // Sem serviço de e-mail, a conta é criada assim mesmo:
-                // a verificação aqui é um cuidado extra, não uma trava de segurança.
-                await criarConta(email, nome, senha);
-                return;
+                // Antes a conta era criada sozinha aqui. Agora a escolha é de quem está usando.
+                mostrar("btnSemEmail", true);
+                avisoAuth("Não deu para enviar o e-mail agora. Tente de novo em instantes ou crie a conta sem o código.", true);
             } finally {
                 btn.disabled = false;
             }
@@ -880,7 +1016,7 @@ async function processarAuth(){
                 avisoAuth("Código enviado. Confira também a caixa de spam.");
             } catch (err){
                 console.error("Falha no envio:", err);
-                avisoAuth("Não foi possível enviar o e-mail agora. Tente de novo em instantes.", true);
+                avisoAuth("Não deu para enviar o e-mail agora. Tente de novo em instantes.", true);
             } finally {
                 btn.disabled = false;
             }
@@ -909,6 +1045,19 @@ async function processarAuth(){
     }
 }
 
+async function criarContaSemCodigo(){
+    const nome  = document.getElementById("authNome").value.trim();
+    const email = document.getElementById("authEmail").value.trim().toLowerCase();
+    const senha = document.getElementById("authSenha").value;
+    if (!emailValido(email) || !nome || senha.length < 6) return;
+    if (senha !== document.getElementById("authConfirmar").value){
+        return avisoAuth("As senhas não coincidem.", true);
+    }
+    if (carregarUsuarios()[email]) return avisoAuth("Este e-mail já tem uma conta neste aparelho.", true);
+    mostrar("btnSemEmail", false);
+    await criarConta(email, nome, senha);
+}
+
 async function criarConta(email, nome, senha){
     const usuarios = carregarUsuarios();
     const sal = gerarSal();
@@ -916,15 +1065,15 @@ async function criarConta(email, nome, senha){
         nome,
         sal,
         hash: await gerarHash(senha, sal),
-        perfil: {}, avaliacoes: [], perguntas: {}, diario: []
+        perfil: {}, avaliacoes: [], perguntas: {}, diario: [], desafiosFeitos: []
     };
-    salvarUsuarios(usuarios);
+    if (!salvarUsuarios(usuarios)) return;
     localStorage.setItem(CHAVE_SESSAO, email);
     verificacao = null;
     limparCamposAuth();
     limparMensagem();
     entrarNoApp();
-    mostrarToast("Conta criada. Bem-vindo(a), " + nome + " 🌱");
+    mostrarToast("Conta criada. Bem-vindo(a), " + nome);
 }
 
 function limparCamposAuth(){
@@ -937,16 +1086,36 @@ function entrarNoApp(){
     abrirTela("inicio");
 }
 
+function pararCronometro(){
+    if (intervaloCronometro){ clearInterval(intervaloCronometro); intervaloCronometro = null; }
+}
+
 function sair(){
     localStorage.removeItem(CHAVE_SESSAO);
-    if (intervaloCronometro) clearInterval(intervaloCronometro);
+    pararCronometro();
     modo = "login"; verificacao = null;
     limparCamposAuth();
     limparMensagem();
+    mostrar("btnSemEmail", false);
     renderAuth();
     document.querySelectorAll(".tela").forEach(t => t.classList.remove("ativa"));
     document.getElementById("login").classList.add("ativa");
     mostrar("menuPrincipal", false);
+}
+
+function apagarConta(){
+    const u = usuarioAtual(); if (!u) return;
+    if (!confirm("Apagar a sua conta e tudo o que está guardado nela? Isso não pode ser desfeito.")) return;
+    const confirmacao = prompt('Para confirmar, escreva APAGAR (em maiúsculas):');
+    if (confirmacao !== "APAGAR"){
+        mostrarToast("Nada foi apagado.");
+        return;
+    }
+    const usuarios = carregarUsuarios();
+    delete usuarios[emailAtual()];
+    salvarUsuarios(usuarios);
+    sair();
+    mostrarToast("Conta apagada deste aparelho.");
 }
 
 /* ============================================================
@@ -959,6 +1128,8 @@ function abrirTela(id){
         mostrar("menuPrincipal", false);
         return;
     }
+
+    if (id !== "desafio") pararCronometro();
 
     document.querySelectorAll(".tela").forEach(t => t.classList.remove("ativa"));
     const alvo = document.getElementById(id);
@@ -993,9 +1164,9 @@ function salvarPerfil(){
         valores:    document.getElementById("valores").value.trim(),
         objetivo:   document.getElementById("objetivo").value.trim()
     };
-    gravarUsuario(u);
+    if (!gravarUsuario(u)) return;
     mostrarPerfil();
-    mostrarToast("Perfil salvo 🌱");
+    mostrarToast("Perfil salvo");
 }
 
 function mostrarPerfil(){
@@ -1013,10 +1184,10 @@ function mostrarPerfil(){
         <div class="card">
             <div class="avatar" aria-hidden="true">🌱</div>
             <div class="perfil-nome">${escaparHTML(u.nome)}</div>
-            <div class="item-perfil"><strong>✨ Qualidade:</strong> ${vazio(p.qualidade)}</div>
-            <div class="item-perfil"><strong>🎨 Interesses:</strong> ${vazio(p.interesses)}</div>
-            <div class="item-perfil"><strong>💜 Valores:</strong> ${vazio(p.valores)}</div>
-            <div class="item-perfil"><strong>🎯 Objetivo:</strong> ${vazio(p.objetivo)}</div>
+            <div class="item-perfil"><strong>Qualidade</strong>${vazio(p.qualidade)}</div>
+            <div class="item-perfil"><strong>Interesses</strong>${vazio(p.interesses)}</div>
+            <div class="item-perfil"><strong>Valores</strong>${vazio(p.valores)}</div>
+            <div class="item-perfil"><strong>Objetivo</strong>${vazio(p.objetivo)}</div>
         </div>`;
 }
 
@@ -1073,28 +1244,33 @@ function obterDesafioDoDia(){
     return listaDesafios[dia % listaDesafios.length];
 }
 
+function desafioFeitoHoje(u){
+    return (u.desafiosFeitos || []).includes(dataHoje());
+}
+
 function mostrarDesafio(){
     const u = usuarioAtual(); if (!u) return;
-    const feito = u.desafioConcluido === dataHoje();
+    const feito = desafioFeitoHoje(u);
 
     document.getElementById("numeroDesafio").textContent = formatarData(dataHoje());
     document.getElementById("textoDesafio").textContent = obterDesafioDoDia();
     mostrar("desafioAtivo", !feito);
     mostrar("desafioConcluido", feito);
 
-    if (feito) iniciarCronometro(); else if (intervaloCronometro) clearInterval(intervaloCronometro);
+    if (feito) iniciarCronometro(); else pararCronometro();
 }
 
 function concluirDesafio(){
     const u = usuarioAtual(); if (!u) return;
-    u.desafioConcluido = dataHoje();
-    gravarUsuario(u);
+    if (!u.desafiosFeitos.includes(dataHoje())) u.desafiosFeitos.push(dataHoje());
+    u.desafiosFeitos.sort();
+    if (!gravarUsuario(u)) return;
     mostrarDesafio();
-    mostrarToast("Desafio concluído ✓");
+    mostrarToast("Desafio concluído");
 }
 
 function iniciarCronometro(){
-    if (intervaloCronometro) clearInterval(intervaloCronometro);
+    pararCronometro();
 
     function atualizar(){
         const agora = new Date();
@@ -1103,11 +1279,11 @@ function iniciarCronometro(){
         const resta = meiaNoite - agora;
 
         if (resta <= 0){
-            clearInterval(intervaloCronometro);
+            pararCronometro();
             // Vira o dia sem recarregar a página, para não perder nada digitado
             mostrarDesafio();
             mostrarAvaliacao();
-            mostrarToast("Chegou um desafio novo 🌱");
+            mostrarToast("Chegou um desafio novo");
             return;
         }
 
@@ -1125,32 +1301,64 @@ function iniciarCronometro(){
 /* ============================================================
    AVALIAÇÃO E REFLEXÕES
    ============================================================ */
+function montarEstrelas(notaAtual, somenteLeitura){
+    const caixa = document.getElementById("estrelas");
+    if (!caixa) return;
+    caixa.classList.toggle("somenteleitura", !!somenteLeitura);
+    caixa.innerHTML = "";
+
+    for (let i = 1; i <= 5; i++){
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "estrela" + (notaAtual >= i ? " acesa" : "");
+        b.setAttribute("role","radio");
+        b.setAttribute("aria-checked", String(notaAtual === i));
+        b.setAttribute("aria-label", i === 1 ? "1 estrela" : i + " estrelas");
+        b.innerHTML = icone("star");
+        if (!somenteLeitura){
+            b.addEventListener("click", () => avaliar(i));
+            b.addEventListener("mouseenter", () => acenderAte(i));
+            b.addEventListener("focus", () => acenderAte(i));
+            b.addEventListener("mouseleave", () => acenderAte(notaAtual || 0));
+            b.addEventListener("blur", () => acenderAte(notaAtual || 0));
+        }
+        caixa.appendChild(b);
+    }
+}
+
+function acenderAte(n){
+    document.querySelectorAll("#estrelas .estrela").forEach((el, i) => {
+        el.classList.toggle("acesa", i < n);
+    });
+}
+
 function avaliar(nota){
     const u = usuarioAtual(); if (!u) return;
-    u.avaliacoes = u.avaliacoes || [];
     if (u.avaliacoes.some(i => i.data === dataHoje())){
         mostrarToast("Você já fez a avaliação de hoje.");
         return;
     }
     u.avaliacoes.push({ nota, data: dataHoje() });
-    gravarUsuario(u);
+    if (!gravarUsuario(u)) return;
     mostrarAvaliacao();
 }
 
 function mostrarAvaliacao(){
     const u = usuarioAtual(); if (!u) return;
-    const hoje = (u.avaliacoes || []).find(i => i.data === dataHoje());
-    const desafioFeito = u.desafioConcluido === dataHoje();
+    const hoje = u.avaliacoes.find(i => i.data === dataHoje());
+    const feito = desafioFeitoHoje(u);
 
-    mostrar("avaliacaoBloqueada", !desafioFeito);
-    mostrar("avaliacaoDisponivel", desafioFeito && !hoje);
-    mostrar("perguntasDiarias", desafioFeito && !!hoje);
+    mostrar("avaliacaoBloqueada", !feito);
+    mostrar("avaliacaoDisponivel", feito && !hoje);
+    mostrar("perguntasDiarias", feito && !!hoje);
+
+    if (feito && !hoje) montarEstrelas(0, false);
 
     document.getElementById("resultadoAvaliacao").innerHTML = hoje
-        ? `<div class="frase">Hoje você se deu <strong>${hoje.nota} de 5</strong>. ❤️<br><small style="font-weight:600">Isso não define você — é só um retrato de hoje.</small></div>`
+        ? `<div class="frase">Hoje você se deu <strong>${hoje.nota} de 5</strong>.<br><small style="font-weight:600">Isso não define você — é só um retrato de hoje.</small></div>`
         : "";
 
-    if (desafioFeito && hoje) mostrarPerguntas();
+    if (feito && hoje) mostrarPerguntas();
     atualizarCaminhada();
 }
 
@@ -1159,11 +1367,11 @@ function mostrarPerguntas(){
     const resp = (u.perguntas || {})[dataHoje()] || {};
     document.getElementById("listaPerguntas").innerHTML = `
         <div class="pergunta-item">
-            <label for="p0">1. Como você se sentiu hoje?</label>
+            <label for="p0">Como você se sentiu hoje?</label>
             <textarea id="p0">${escaparHTML(resp.p0 || "")}</textarea>
         </div>
         <div class="pergunta-item">
-            <label for="p1">2. O que você aprendeu?</label>
+            <label for="p1">O que você aprendeu?</label>
             <textarea id="p1">${escaparHTML(resp.p1 || "")}</textarea>
         </div>`;
 }
@@ -1174,15 +1382,15 @@ function salvarPerguntas(){
     u.perguntas[dataHoje()] = {
         p0: document.getElementById("p0")?.value.trim() || "",
         p1: document.getElementById("p1")?.value.trim() || "",
-        nota: (u.avaliacoes || []).find(i => i.data === dataHoje())?.nota || null
+        nota: u.avaliacoes.find(i => i.data === dataHoje())?.nota || null
     };
-    gravarUsuario(u);
-    mostrarToast("Reflexões salvas 🌱");
+    if (!gravarUsuario(u)) return;
+    mostrarToast("Reflexões salvas");
 }
 
 function abrirTelaReflexoes(){
     abrirTela("reflexoesPage");
-    const u = usuarioAtual();
+    const u = usuarioAtual(); if (!u) return;
     const conteiner = document.getElementById("conteudoReflexoes");
 
     const registros = Object.entries(u.perguntas || {})
@@ -1190,7 +1398,7 @@ function abrirTelaReflexoes(){
         .sort((a,b) => b[0].localeCompare(a[0]));
 
     if (!registros.length){
-        conteiner.innerHTML = `<div class="diario-item">Suas respostas das avaliações aparecem aqui. Responda as perguntas de hoje para começar. 🌱</div>`;
+        conteiner.innerHTML = `<div class="diario-item">Suas respostas das avaliações aparecem aqui. Responda as perguntas de hoje para começar.</div>`;
         return;
     }
 
@@ -1198,7 +1406,7 @@ function abrirTelaReflexoes(){
         const nota = Number(item.nota || 0);
         return `
             <div class="diario-item">
-                <div class="data">📅 ${formatarData(data)}${nota ? " • " + "★".repeat(nota) : ""}</div>
+                <div class="data">${formatarData(data)}${nota ? " • " + nota + " de 5" : ""}</div>
                 ${item.p0 ? `<p class="diario-texto"><strong>Como se sentiu:</strong> ${escaparHTML(item.p0)}</p>` : ""}
                 ${item.p1 ? `<p class="diario-texto" style="margin-top:8px;"><strong>O que aprendeu:</strong> ${escaparHTML(item.p1)}</p>` : ""}
             </div>`;
@@ -1206,7 +1414,7 @@ function abrirTelaReflexoes(){
 }
 
 /* ============================================================
-   DIÁRIO — com edição e exclusão
+   DIÁRIO
    ============================================================ */
 function novoId(){
     return "d" + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
@@ -1218,12 +1426,11 @@ function salvarDiario(){
     const texto = campo.value.trim();
     if (!texto){ mostrarToast("Escreva algo antes de guardar."); return; }
 
-    u.diario = u.diario || [];
     u.diario.unshift({ id: novoId(), texto, criadoEm: new Date().toISOString() });
-    gravarUsuario(u);
+    if (!gravarUsuario(u)) return;
     campo.value = "";
     mostrarDiario();
-    mostrarToast("Reflexão guardada ✍️");
+    mostrarToast("Reflexão guardada");
 }
 
 function mostrarDiario(){
@@ -1232,7 +1439,7 @@ function mostrarDiario(){
     const itens = u.diario || [];
 
     if (!itens.length){
-        lista.innerHTML = `<div class="card"><div class="diario-item">Seu diário está vazio. O primeiro texto pode ser só uma frase sobre o seu dia. 🌱</div></div>`;
+        lista.innerHTML = `<div class="card"><div class="diario-item">Seu diário está vazio. O primeiro texto pode ser só uma frase sobre o seu dia.</div></div>`;
         return;
     }
 
@@ -1246,8 +1453,8 @@ function mostrarDiario(){
                 <div class="data">${escaparHTML(quando)}${editado}</div>
                 <div class="diario-texto">${escaparHTML(item.texto)}</div>
                 <div class="acoes-item">
-                    <button class="btn-mini" type="button" onclick="editarDiario('${item.id}')">✏️ Editar</button>
-                    <button class="btn-mini perigo" type="button" onclick="apagarDiario('${item.id}')">🗑️ Apagar</button>
+                    <button class="btn-mini" type="button" onclick="editarDiario('${item.id}')">${icone("pencil")}Editar</button>
+                    <button class="btn-mini perigo" type="button" onclick="apagarDiario('${item.id}')">${icone("trash")}Apagar</button>
                 </div>
             </div>`;
     }).join("");
@@ -1255,14 +1462,14 @@ function mostrarDiario(){
 
 function editarDiario(id){
     const u = usuarioAtual(); if (!u) return;
-    const item = (u.diario || []).find(i => i.id === id);
+    const item = u.diario.find(i => i.id === id);
     if (!item) return;
     const bloco = document.getElementById("item-" + id);
     bloco.innerHTML = `
         <label for="edit-${id}">Editando esta reflexão</label>
         <textarea id="edit-${id}">${escaparHTML(item.texto)}</textarea>
         <div class="acoes-item">
-            <button class="btn-mini" type="button" onclick="confirmarEdicao('${id}')">💾 Salvar</button>
+            <button class="btn-mini" type="button" onclick="confirmarEdicao('${id}')">${icone("save")}Salvar</button>
             <button class="btn-mini" type="button" onclick="mostrarDiario()">Cancelar</button>
         </div>`;
     document.getElementById("edit-" + id).focus();
@@ -1273,9 +1480,10 @@ function confirmarEdicao(id){
     const texto = document.getElementById("edit-" + id).value.trim();
     if (!texto){ mostrarToast("O texto não pode ficar vazio."); return; }
     const item = u.diario.find(i => i.id === id);
+    if (!item) return;
     item.texto = texto;
     item.editadoEm = new Date().toISOString();
-    gravarUsuario(u);
+    if (!gravarUsuario(u)) return;
     mostrarDiario();
     mostrarToast("Reflexão atualizada");
 }
@@ -1283,37 +1491,31 @@ function confirmarEdicao(id){
 function apagarDiario(id){
     if (!confirm("Apagar esta reflexão? Isso não pode ser desfeito.")) return;
     const u = usuarioAtual(); if (!u) return;
-    u.diario = (u.diario || []).filter(i => i.id !== id);
-    gravarUsuario(u);
+    u.diario = u.diario.filter(i => i.id !== id);
+    if (!gravarUsuario(u)) return;
     mostrarDiario();
     mostrarToast("Reflexão apagada");
 }
 
 /* ============================================================
-   CAMINHADA — sequência e últimos 7 dias, em vez de média
+   CAMINHADA
    ============================================================ */
 function diasComRegistro(u){
-    const dias = new Set((u.avaliacoes || []).map(a => a.data));
-    if (u.desafioConcluido) dias.add(u.desafioConcluido);
+    const dias = new Set(u.desafiosFeitos || []);
+    (u.avaliacoes || []).forEach(a => dias.add(a.data));
     return dias;
-}
-
-function calcularSequencia(dias){
-    let sequencia = 0;
-    const d = new Date();
-    if (!dias.has(dataISO(d))) d.setDate(d.getDate() - 1); // o dia de hoje ainda pode ser feito
-    while (dias.has(dataISO(d))){ sequencia++; d.setDate(d.getDate() - 1); }
-    return sequencia;
 }
 
 function atualizarCaminhada(){
     const u = usuarioAtual(); if (!u) return;
     const dias = diasComRegistro(u);
     const notas = {};
-    (u.avaliacoes || []).forEach(a => notas[a.data] = a.nota);
+    u.avaliacoes.forEach(a => notas[a.data] = a.nota);
 
-    const sequencia = calcularSequencia(dias);
-    document.getElementById("statSequencia").textContent = sequencia;
+    const prefixoMes = dataHoje().slice(0,7);
+    const noMes = [...dias].filter(d => d.startsWith(prefixoMes)).length;
+
+    document.getElementById("statMes").textContent = noMes;
     document.getElementById("statTotal").textContent = dias.size;
 
     const nomes = ["dom","seg","ter","qua","qui","sex","sáb"];
@@ -1325,9 +1527,13 @@ function atualizarCaminhada(){
         const iso = dataISO(d);
         const feito = dias.has(iso);
         if (feito) naSemana++;
+        const marca = feito
+            ? (notas[iso] ? `<svg class="ic ic-fill" aria-hidden="true"><use href="#i-star"/></svg>`
+                          : `<svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>`)
+            : "·";
         html += `<div class="dia ${feito ? "feito" : ""} ${i === 0 ? "hoje" : ""}">
                     <small>${nomes[d.getDay()]}</small>
-                    <b>${feito ? (notas[iso] ? "★" : "✓") : "·"}</b>
+                    <div class="marca">${marca}</div>
                  </div>`;
     }
     document.getElementById("semana").innerHTML = html;
@@ -1336,10 +1542,10 @@ function atualizarCaminhada(){
     const texto = document.getElementById("textoCaminhada");
     if (!dias.size){
         texto.textContent = "Conclua o desafio de hoje para começar a sua caminhada.";
-    } else if (sequencia > 1){
-        texto.textContent = `Você está há ${sequencia} dias seguidos reservando um tempo para si.`;
+    } else if (noMes > 1){
+        texto.textContent = `Neste mês você parou ${noMes} vezes para olhar para si.`;
     } else {
-        texto.textContent = "Cada dia aqui conta. Volte amanhã para continuar a sequência.";
+        texto.textContent = "Cada dia aqui conta, mesmo os que ficam de fora.";
     }
 }
 
@@ -1349,14 +1555,14 @@ function atualizarCaminhada(){
 function exportarDados(){
     const u = usuarioAtual(); if (!u) return;
     const dados = {
-        app: "essencia", versao: 1, exportadoEm: new Date().toISOString(),
+        app: "essencia", versao: 2, exportadoEm: new Date().toISOString(),
         email: emailAtual(),
         nome: u.nome,
-        perfil: u.perfil || {},
-        avaliacoes: u.avaliacoes || [],
-        perguntas: u.perguntas || {},
-        diario: u.diario || [],
-        desafioConcluido: u.desafioConcluido || null
+        perfil: u.perfil,
+        avaliacoes: u.avaliacoes,
+        perguntas: u.perguntas,
+        diario: u.diario,
+        desafiosFeitos: u.desafiosFeitos
     };
     const blob = new Blob([JSON.stringify(dados, null, 2)], { type:"application/json" });
     const url = URL.createObjectURL(blob);
@@ -1365,7 +1571,7 @@ function exportarDados(){
     a.download = `essencia-${dataHoje()}.json`;
     document.body.appendChild(a); a.click(); a.remove();
     URL.revokeObjectURL(url);
-    mostrarToast("Cópia baixada. Guarde em um lugar seguro 💾");
+    mostrarToast("Cópia baixada. Guarde em um lugar seguro.");
 }
 
 function importarDados(evento){
@@ -1379,25 +1585,34 @@ function importarDados(evento){
             if (dados.app !== "essencia") throw new Error("formato");
             if (!confirm("Restaurar este arquivo? Os registros dele serão somados aos seus, sem apagar nada do que já existe aqui.")) return;
 
-            const u = usuarioAtual();
-            u.nome = u.nome || dados.nome;
-            u.perfil = Object.keys(u.perfil || {}).length ? u.perfil : (dados.perfil || {});
+            const u = usuarioAtual(); if (!u) return;
 
-            const datasAval = new Set((u.avaliacoes || []).map(a => a.data));
-            (dados.avaliacoes || []).forEach(a => { if (!datasAval.has(a.data)) u.avaliacoes.push(a); });
+            u.nome   = u.nome || dados.nome || "";
+            u.perfil = Object.keys(u.perfil).length ? u.perfil : (dados.perfil || {});
 
-            u.perguntas = Object.assign({}, dados.perguntas || {}, u.perguntas || {});
+            const datasAval = new Set(u.avaliacoes.map(a => a.data));
+            (dados.avaliacoes || []).forEach(a => {
+                if (a && a.data && !datasAval.has(a.data)) u.avaliacoes.push(a);
+            });
 
-            const ids = new Set((u.diario || []).map(i => i.id));
+            u.perguntas = Object.assign({}, dados.perguntas || {}, u.perguntas);
+
+            const ids = new Set(u.diario.map(i => i.id));
             (dados.diario || []).forEach(i => {
+                if (!i || !i.texto) return;
                 if (!i.id) i.id = novoId();
-                if (!ids.has(i.id)) u.diario.push(i);
+                if (!ids.has(i.id)){ u.diario.push(i); ids.add(i.id); }
             });
             u.diario.sort((a,b) => String(b.criadoEm || "").localeCompare(String(a.criadoEm || "")));
 
-            gravarUsuario(u);
+            const feitos = new Set(u.desafiosFeitos);
+            (dados.desafiosFeitos || []).forEach(d => feitos.add(d));
+            if (dados.desafioConcluido) feitos.add(dados.desafioConcluido); // arquivos da versão 1
+            u.desafiosFeitos = [...feitos].sort();
+
+            if (!gravarUsuario(u)) return;
             mostrarPerfil();
-            mostrarToast("Dados restaurados 🌱");
+            mostrarToast("Dados restaurados");
         } catch (e){
             console.error(e);
             mostrarToast("Arquivo inválido. Use um arquivo baixado pelo próprio Essência.");
