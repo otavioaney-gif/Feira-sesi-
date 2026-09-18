@@ -48,16 +48,15 @@ body{
     overflow-x:hidden;
 }
 
-/* Fundo só com CSS: nada de imagem externa para baixar no celular */
+/* Fundo em camada própria: evita o background-attachment:fixed,
+   que trava ou é ignorado no Safari do iPhone. */
 .fundo{
     position:fixed;
     inset:0;
     z-index:-1;
     background:
-      radial-gradient(60% 45% at 18% 8%, rgba(18,184,134,.42), transparent 70%),
-      radial-gradient(55% 40% at 88% 22%, rgba(8,127,91,.38), transparent 72%),
-      radial-gradient(70% 50% at 50% 108%, rgba(4,60,42,.55), transparent 70%),
-      linear-gradient(165deg, #0f6c4e 0%, #0d5a41 45%, #08432f 100%);
+      linear-gradient(rgba(6,46,33,.55), rgba(8,60,42,.65)),
+      #0d5a41 url('https://images.unsplash.com/photo-1771526087639-02bf6d603d4b?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
 }
 
 .app{
@@ -626,7 +625,7 @@ textarea{height:120px;resize:vertical;line-height:1.55}
 
         <div class="semana" id="semana" aria-label="Últimos sete dias"></div>
         <div class="barra-fundo"><div id="barraProgresso" class="barra"></div></div>
-        <p style="margin-top:10px;font-size:13px;color:#71857e;">Isto mostra em quais dos últimos 7 dias você parou para olhar para si. Faltar um dia não apaga os outros.</p>
+        <p style="margin-top:10px;font-size:13px;color:#71857e;">Isto mostra em quais dias desta semana (de domingo a sábado) você parou para olhar para si. Faltar um dia não apaga os outros.</p>
     </div>
 </section>
 
@@ -1518,12 +1517,18 @@ function atualizarCaminhada(){
     document.getElementById("statMes").textContent = noMes;
     document.getElementById("statTotal").textContent = dias.size;
 
+    // Semana fixa: domingo (0) até sábado (6) da semana atual
     const nomes = ["dom","seg","ter","qua","qui","sex","sáb"];
+    const hoje = new Date();
+    const domingo = new Date(hoje);
+    domingo.setDate(hoje.getDate() - hoje.getDay());
+    const isoHoje = dataISO(hoje);
+
     let naSemana = 0;
     let html = "";
-    for (let i = 6; i >= 0; i--){
-        const d = new Date();
-        d.setDate(d.getDate() - i);
+    for (let i = 0; i < 7; i++){
+        const d = new Date(domingo);
+        d.setDate(domingo.getDate() + i);
         const iso = dataISO(d);
         const feito = dias.has(iso);
         if (feito) naSemana++;
@@ -1531,8 +1536,8 @@ function atualizarCaminhada(){
             ? (notas[iso] ? `<svg class="ic ic-fill" aria-hidden="true"><use href="#i-star"/></svg>`
                           : `<svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>`)
             : "·";
-        html += `<div class="dia ${feito ? "feito" : ""} ${i === 0 ? "hoje" : ""}">
-                    <small>${nomes[d.getDay()]}</small>
+        html += `<div class="dia ${feito ? "feito" : ""} ${iso === isoHoje ? "hoje" : ""}">
+                    <small>${nomes[i]}</small>
                     <div class="marca">${marca}</div>
                  </div>`;
     }
