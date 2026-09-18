@@ -461,6 +461,7 @@ textarea{height:120px;resize:vertical;line-height:1.55}
             <div id="campoSenha">
                 <label for="authSenha" id="labelSenha">Senha</label>
                 <input id="authSenha" type="password" autocomplete="current-password" placeholder="Digite sua senha">
+                <p id="dicaSenha" class="oculto" style="margin-top:7px;font-size:12.5px;color:#5b6f67;line-height:1.5;">Pelo menos 8 caracteres, com letra maiúscula, letra minúscula, número e símbolo.</p>
             </div>
 
             <div id="campoConfirmar" class="oculto">
@@ -863,6 +864,7 @@ function renderAuth(){
     document.getElementById("labelSenha").textContent = rec ? "Nova senha" : "Senha";
     senha.placeholder = rec ? "Escolha uma nova senha" : "Digite sua senha";
     senha.autocomplete = (cad || rec) ? "new-password" : "current-password";
+    mostrar("dicaSenha", cad || rec);
 
     document.getElementById("btnAuth").textContent =
         cad  ? (pendente ? "Confirmar código e criar conta" : "Enviar código para o meu e-mail")
@@ -906,6 +908,29 @@ function modoRecuperar(){
 
 function emailValido(email){
     return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+}
+
+/* Pelo menos 8 caracteres, com número, maiúscula, minúscula e símbolo */
+function senhaValida(senha){
+    return senha.length >= 8
+        && /[0-9]/.test(senha)
+        && /[a-z]/.test(senha)
+        && /[A-Z]/.test(senha)
+        && /[^A-Za-z0-9]/.test(senha);
+}
+
+const MENSAGEM_SENHA = "A senha precisa ter pelo menos 8 caracteres, com letra maiúscula, letra minúscula, número e símbolo.";
+
+/* Pede ao navegador para oferecer salvar esta senha, quando ele suportar */
+async function ofertarSalvarSenha(email, senha, nome){
+    try {
+        if (!window.PasswordCredential || !navigator.credentials) return;
+        const credencial = new PasswordCredential({ id: email, password: senha, name: nome || email });
+        await navigator.credentials.store(credencial);
+    } catch(e){
+        // Alguns navegadores (Firefox, Safari) não têm essa API — tudo bem,
+        // o próprio navegador ainda pode oferecer salvar pelo autocomplete do formulário.
+    }
 }
 
 function enviarCodigo(email, nome, codigo){
@@ -964,7 +989,7 @@ async function processarAuth(){
         const confirmacao = document.getElementById("authConfirmar").value;
 
         if (!nome)  return avisoAuth("Escreva como você quer ser chamado.", true);
-        if (senha.length < 6) return avisoAuth("A senha precisa ter pelo menos 6 caracteres.", true);
+        if (!senhaValida(senha)) return avisoAuth(MENSAGEM_SENHA, true);
         if (senha !== confirmacao) return avisoAuth("As senhas não coincidem.", true);
         if (usuarios[email]) return avisoAuth("Este e-mail já tem uma conta neste aparelho.", true);
 
@@ -1025,7 +1050,7 @@ async function processarAuth(){
         if (document.getElementById("authCodigo").value.trim() !== verificacao.codigo){
             return avisoAuth("Código incorreto. Confira a mensagem no seu e-mail.", true);
         }
-        if (senha.length < 6) return avisoAuth("A nova senha precisa ter pelo menos 6 caracteres.", true);
+        if (!senhaValida(senha)) return avisoAuth(MENSAGEM_SENHA, true);
         if (senha !== document.getElementById("authConfirmar").value){
             return avisoAuth("As senhas não coincidem.", true);
         }
@@ -1035,6 +1060,7 @@ async function processarAuth(){
         delete u.senha;
         usuarios[email] = u;
         salvarUsuarios(usuarios);
+        await ofertarSalvarSenha(email, senha, u.nome);
 
         verificacao = null;
         modo = "login";
@@ -1048,7 +1074,8 @@ async function criarContaSemCodigo(){
     const nome  = document.getElementById("authNome").value.trim();
     const email = document.getElementById("authEmail").value.trim().toLowerCase();
     const senha = document.getElementById("authSenha").value;
-    if (!emailValido(email) || !nome || senha.length < 6) return;
+    if (!emailValido(email) || !nome) return;
+    if (!senhaValida(senha)) return avisoAuth(MENSAGEM_SENHA, true);
     if (senha !== document.getElementById("authConfirmar").value){
         return avisoAuth("As senhas não coincidem.", true);
     }
@@ -1069,6 +1096,7 @@ async function criarConta(email, nome, senha){
     if (!salvarUsuarios(usuarios)) return;
     localStorage.setItem(CHAVE_SESSAO, email);
     verificacao = null;
+    await ofertarSalvarSenha(email, senha, nome);
     limparCamposAuth();
     limparMensagem();
     entrarNoApp();
